@@ -1,0 +1,13 @@
+[Unit]
+Description=virtualbox machine server_debian12
+After=virtualbox.service vboxweb.service local-fs.target storage.mount network.target auditd.service
+
+
+[Service]
+ExecStart=/usr/lib/virtualbox/VBoxHeadless -startvm server_debian12
+KillMode=process
+TimeoutSec=900
+
+[Install]
+WantedBy=multi-user.target
+

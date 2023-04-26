@@ -1,0 +1,13 @@
+[Unit]
+Description=virtualbox web service API
+After=virtualbox.service
+
+
+[Service]
+ExecStart=/usr/bin/vboxwebsrv -H 127.0.0.1
+KillMode=mixed
+
+
+[Install]
+WantedBy=multi-user.target
+

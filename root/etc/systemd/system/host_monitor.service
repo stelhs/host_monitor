@@ -1,0 +1,14 @@
+[Unit]
+Description=MD raid1 monitor
+After=network.target auditd.service
+
+
+[Service]
+ExecStart=screen -DmS host_monitor bash -c "cd /root/host_monitor; python3 -i monitor.py; exec bash"
+ExecStop=/root/host_monitor/tgadm.py "host_monitor stopped by systemd service"
+KillMode=mixed
+
+
+[Install]
+WantedBy=multi-user.target
+
