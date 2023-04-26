@@ -118,9 +118,25 @@
 
 13) настройка overlayroot для host машины
     apt install overlayroot
-        /etc/overlayroot.conf
+    cp /etc/overlayroot.conf /etc/overlayroot.conf_rw
+    cp /etc/overlayroot.conf /etc/overlayroot.conf_ro
+        /etc/overlayroot.conf_ro
             #overlayroot=""
             overlayroot="tmpfs:swap=1,recurse=0"
+
+    cp root/root/overctl_ro.sh /root/
+    cp root/root/overctl_rw.sh /root/
+    Переключение c RW на RO:
+        cd /root
+        ./overctl_ro.sh
+        reboot
+
+    Переключение c RO на RW:
+        overlayroot-chroot
+        cd /root
+        ./overctl_rw.sh
+        exit
+        reboot
 
 
 14) настройка автозапуса virtualbox
@@ -168,4 +184,5 @@
     chown -R stelhs:sr90 /usr/local/lib/php
     cd php
     git config --global --add safe.directory /usr/local/lib/php
+
 

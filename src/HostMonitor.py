@@ -4,6 +4,7 @@ from TelegramClient import *
 from MdMonitor import *
 from MountMonitor import *
 from FreeSpaceMonitor import *
+from RoRwMonitor import *
 
 
 class HostMonitor():
@@ -15,10 +16,12 @@ class HostMonitor():
         s.md = MdMonitor(s)
         s.mm = MountMonitor(s)
         s.fsm = FreeSpaceMonitor(s)
+        s.rorw = RoRwMonitor(s)
 
         s.md.start()
         s.mm.start()
         s.fsm.start()
+        s.rorw.start()
 
 
     def toAdmin(s, msg):
@@ -37,6 +40,7 @@ class HostMonitor():
         s.md.destroy()
         s.mm.destroy()
         s.fsm.destroy()
+        s.rorw.destroy()
         print('destroyed HostMonitor')
         Task.sleep(1000)
         s.toAdminSync("destroyed")
