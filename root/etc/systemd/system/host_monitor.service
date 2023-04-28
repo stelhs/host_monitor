@@ -1,5 +1,5 @@
 [Unit]
-Description=MD raid1 monitor
+Description=Host monitoring and maintenance
 After=network.target auditd.service
 
 

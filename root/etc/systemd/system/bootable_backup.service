@@ -1,0 +1,14 @@
+[Unit]
+Description=Backup bootable hdd
+After=network.target auditd.service
+
+
+[Service]
+ExecStart=screen -DmS backup_bootable bash -c "cd /root/host_monitor; ./bootable_backuper.sh; exec bash"
+ExecStop=bash -c "/root/host_monitor/tgadm.py 'bootable_backuper stopped by systemd service'"
+KillMode=mixed
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+

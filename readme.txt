@@ -11,7 +11,7 @@
     apt update
     apt dist-upgrade
 
-3) установить sudo, mdadm, screen, git, telnet, lnav, smartmontools
+3) установить sudo, mdadm, screen, git, telnet, lnav, smartmontools, rsync
 
 4) настроить sudo
     adduser <username> sudo
@@ -32,7 +32,11 @@
         ClientAliveCountMax 2
         X11DisplayOffset 10
         GatewayPorts yes
+        PubkeyAcceptedAlgorithms +ssh-rsa
 
+    на клиенте:
+        /etc/ssh/ssh_config:
+            ServerAliveInterval 10
 
 7) Настроить bash подсветку в root:
     sudo cp /home/stelhs/.profile /root/
@@ -105,7 +109,7 @@
         mount -t vboxsf shared /storage
 
 
-12) Настройка mysql:
+12) Настройка mysql в guest OS:
     apt insatll mysql-server, phpmyadmin
     mysql
         ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'password';
@@ -114,6 +118,19 @@
         CREATE USER 'sammy'@'localhost' IDENTIFIED BY 'password';
         GRANT ALL PRIVILEGES ON wchat.* TO 'wchat'@'localhost' WITH GRANT OPTION;
         flush privileges;
+
+    vim /root/.my.cnf
+    vim /home/stelhs/.my.cnf
+        [mysqldump]
+        user=user
+        password=password
+
+        [mysql]
+        user = myuser
+        password = secret
+
+    для бакапа:
+        mysqldump -uroot --all-databases > mysql_databases.sql
 
 
 13) настройка overlayroot для host машины
@@ -184,5 +201,15 @@
     chown -R stelhs:sr90 /usr/local/lib/php
     cd php
     git config --global --add safe.directory /usr/local/lib/php
+
+
+18) Настройка бакапов:
+    cp root/etc/systemd/system/bootable_backup.service /etc/systemd/system
+    cp root/etc/systemd/system/storage_backup.service /etc/systemd/system
+    cp root/etc/systemd/system/storage_backup.timer /etc/systemd/system
+    systemctl daemon-reload
+    systemctl enable bootable_backup.service
+    systemctl enable storage_backup.timer
+
 
 

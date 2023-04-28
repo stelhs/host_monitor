@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
-import sys
-import sys
+import sys, os
+
+os.chdir(sys.path[0])
+
 sys.path.append('sr90lib/')
 sys.path.append('src/')
 from TelegramClient import *

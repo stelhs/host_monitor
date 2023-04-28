@@ -31,7 +31,7 @@ class FreeSpaceMonitor(MonitorBase):
                 for row in tb:
                     if row['mPoint'] == mp:
                         if row['use'] >= s.conf['maxUsed']:
-                            s.toAdmin("No free space on %s. free: %s" % (
+                            s.toAdminSync("No free space on %s. free: %s" % (
                                       mp, row['avail']))
 
             Task.sleep(30 * 60 * 1000)

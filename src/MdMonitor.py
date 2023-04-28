@@ -39,51 +39,51 @@ class MdMonitor(MonitorBase):
 
 
     def do(s):
-        abnormal = False
+        s.abnormal = False
         while(1):
             stat = s.mdstat()
             if stat['state'] == 'normal':
-                if abnormal:
+                if s.abnormal:
                     s.log.info("RAID1 recovered")
-                    s.toAdmin("RAID1 recovered")
-                abnormal = False
+                    s.toAdminSync("RAID1 recovered")
+                s.abnormal = False
                 Task.sleep(60000, "normal")
                 continue
 
             if stat['state'] == 'parse_err':
                 s.log.err("mdadm parse error")
-                s.toAdmin('mdadm parse error')
-                abnormal = True
+                s.toAdminSync('mdadm parse error')
+                s.abnormal = True
                 Task.sleep(60000, "parse_err")
                 continue
 
             if stat['state'] == 'damage':
                 s.log.err("RAID1 damage")
-                s.toAdmin('RAID1 damage')
-                abnormal = True
+                s.toAdminSync('RAID1 damage')
+                s.abnormal = True
                 Task.sleep(900000, "damage")
                 continue
 
             if stat['state'] == 'no_exist':
                 s.log.err("RAID1 no exist")
-                s.toAdmin('RAID1 no exist')
-                abnormal = True
+                s.toAdminSync('RAID1 no exist')
+                s.abnormal = True
                 Task.sleep(900000, "no_exist")
                 continue
 
             if stat['state'] == 'resync':
                 msg = 'RAID1 resync: %s%%' % stat['progress']
                 s.log.info(msg)
-                s.toAdmin(msg)
-                abnormal = True
+                s.toAdminSync(msg)
+                s.abnormal = True
                 Task.sleep(300000, "resync")
                 continue
 
             if stat['state'] == 'recovery':
                 msg = 'RAID1 recovered: %s%%' % stat['progress']
                 s.log.info(msg)
-                s.toAdmin(msg)
-                abnormal = True
+                s.toAdminSync(msg)
+                s.abnormal = True
                 Task.sleep(300000, "recovery")
                 continue
 

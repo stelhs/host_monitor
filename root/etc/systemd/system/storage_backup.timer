@@ -1,0 +1,11 @@
+[Unit]
+Description=automatic storage backup
+Requires=storage_backup.service
+
+[Timer]
+Unit=storage_backup.service
+OnCalendar=Tue,Sun *-*-* 03:00:00
+
+[Install]
+WantedBy=timers.target
+

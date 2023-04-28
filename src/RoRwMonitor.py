@@ -15,12 +15,12 @@ class RoRwMonitor(MonitorBase):
 
 
     def do(s):
-        abnormal = False
+        s.abnormal = False
         while(1):
             if not s.isRo():
-                s.toAdmin('root file system is not RO. Please switch to RO')
-                if not abnormal:
-                    abnormal = True
+                s.toAdminSync('root file system is not RO. Please switch to RO')
+                if not s.abnormal:
+                    s.abnormal = True
                     Task.sleep(5 * 60 * 1000)
                     continue
 
@@ -28,7 +28,7 @@ class RoRwMonitor(MonitorBase):
                 continue
 
 
-            if abnormal:
-                s.toAdmin('root file system return to RO, thanks!')
-                abnormal = False
+            if s.abnormal:
+                s.toAdminSync('root file system return to RO, thanks!')
+                s.abnormal = False
             Task.sleep(5 * 60 * 1000)

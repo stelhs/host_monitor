@@ -8,11 +8,11 @@ class MountMonitor(MonitorBase):
     def do(s):
         while(1):
             if os.path.exists('/backup/NOT_MOUNTED'):
-                s.toAdmin("/backup not mounted")
+                s.toAdminSync("/backup not mounted")
                 Task.sleep(300000)
 
             if os.path.exists('/storage/NOT_MOUNTED'):
-                s.toAdmin("/storage not mounted")
+                s.toAdminSync("/storage not mounted")
                 Task.sleep(300000)
                 continue
 

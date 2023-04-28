@@ -1,0 +1,14 @@
+[Unit]
+Description=Backup Raid1 storage to /backup
+After=network.target auditd.service
+
+
+[Service]
+ExecStart=screen -DmS backup_mirror bash -c "cd /root/host_monitor; ./storage_backuper.sh"
+ExecStop=bash -c "/root/host_monitor/tgadm.py 'storage_backuper stopped by systemd service'"
+KillMode=mixed
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+
