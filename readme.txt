@@ -11,7 +11,7 @@
     apt update
     apt dist-upgrade
 
-3) установить sudo, mdadm, screen, git, telnet, lnav, smartmontools, rsync
+3) установить sudo, mdadm, screen, git, telnet, lnav, smartmontools, rsync, wget
 
 4) настроить sudo
     adduser <username> sudo
@@ -38,9 +38,23 @@
         /etc/ssh/ssh_config:
             ServerAliveInterval 10
 
-7) Настроить bash подсветку в root:
+7) Настроить bash подсветку в root и aliases:
     sudo cp /home/stelhs/.profile /root/
     sudo cp /home/stelhs/.bashrc /root/
+
+    vim ~/.bashrc
+        # aliases for git
+        alias gst='git status'
+        alias gl='git log'
+        alias ga='git add'
+        alias gc='git commit -m'
+        alias gp='git pull --rebase && git push'
+        alias gull='git pull --rebase'
+        alias gush='git push'
+        alias gb='git branch'
+        alias gco='git checkout'
+        alias gd='git diff'
+
 
 8) настроить /storage
     mkdir /storage
@@ -211,5 +225,33 @@
     systemctl enable bootable_backup.service
     systemctl enable storage_backup.timer
 
+19) Настроить принтер на host:
+        aptitude install cups printer-driver-foo2zjs hplip
+
+        vim /etc/cups/cupsd.conf
+            Listen 192.168.0.3:631
+            Browsing Yes
+            DefaultAuthType Basic
+
+            <Location />
+              Order allow,deny
+              Allow from 192.168.0.*
+            #  Allow from all
+            </Location>
+
+            <Location /admin>
+              Order allow,deny
+              Allow from 192.168.0.*
+            </Location>
+
+            <Location /admin/conf>
+              AuthType Default
+              Require user @SYSTEM
+              Order allow,deny
+              Allow from 192.168.0.*
+            </Location>
 
 
+        systemctl restart cups
+        hp-setup -i
+        открыть: https://192.168.0.3:631/admin
