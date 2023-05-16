@@ -11,7 +11,7 @@ fi
 
 /root/host_monitor/tgadm.py "starting bootable backup"
 
-dd if=/dev/sdd conv=sync,noerror bs=64K status=progress | gzip -c > /backup/bootable_sr90.img.gz_incomplete
+dd if=/dev/disk/by-id/wwn-0x50014ee65aee2c6f conv=sync,noerror bs=64K status=progress | gzip -c > /backup/bootable_sr90.img.gz_incomplete
 if [ $? -eq '0' ]
 then
     mv /backup/bootable_sr90.img.gz_incomplete /backup/bootable_sr90.img.gz

@@ -201,6 +201,7 @@
 
 
 17) настройка сайтов
+    sudo aptitude install imagemagick
     vim /etc/php/8.2/apache2/php.ini
         error_reporting = E_ALL & ~E_DEPRECATED
         display_errors = On
