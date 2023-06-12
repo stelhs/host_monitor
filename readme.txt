@@ -217,6 +217,34 @@
     cd php
     git config --global --add safe.directory /usr/local/lib/php
 
+    sudo a2enmod ssl
+    sudo mkdir /etc/apache2/certs
+    cd /etc/apache2/certs
+    openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out apache.crt -keyout apache.key
+    sudo vim /etc/apache2/sites-enabled/000-default.conf
+	<VirtualHost *:443>
+	    ServerAdmin webmaster@localhost
+
+	    DocumentRoot /storage/www/
+
+	    ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+	    SSLEngine on
+
+	    SSLCertificateFile /etc/apache2/certs/apache.crt
+
+	    SSLCertificateKeyFile /etc/apache2/certs/apache.key
+
+	    <Directory /storage/www/>
+		Options FollowSymLinks
+		Options -Indexes
+		AllowOverride All
+	        Require all granted
+	    </Directory>
+	</VirtualHost>
+
 
 18) Настройка бакапов:
     cp root/etc/systemd/system/bootable_backup.service /etc/systemd/system
