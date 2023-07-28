@@ -245,6 +245,13 @@
 	    </Directory>
 	</VirtualHost>
 
+     Генерация сертификатов:
+           sudo apt-get remove certbot
+           sudo aptitude install snapd
+           sudo snap install --classic certbot
+           sudo certbot --apache
+
+
 
 18) Настройка бакапов:
     cp root/etc/systemd/system/bootable_backup.service /etc/systemd/system
